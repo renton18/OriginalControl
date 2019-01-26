@@ -13,10 +13,10 @@ namespace OriginalControl
 {
     public partial class ValidateTextBox: UserControl
     {
-        public StringType stringType { get; set; } = StringType.HALF_NUMBER;
+        public STRINGTYPE stringType { get; set; } = STRINGTYPE.HALF_NUMBER;
 
         ErrorProvider errorProvider = new ErrorProvider();
-        public enum StringType
+        public enum STRINGTYPE
         {
             HALF_NUMBER,
             HALF_NUMBER_DOT,
@@ -28,6 +28,11 @@ namespace OriginalControl
             InitializeComponent();
         }
 
+        private void textBox_Validated(object sender, EventArgs e)
+        {
+            errorProvider.SetError((TextBox)sender, null);
+        }
+
         private void textBox_Validating(object sender, CancelEventArgs e)
         {
             string regexString = "";
@@ -35,19 +40,19 @@ namespace OriginalControl
 
             switch (stringType)
             {
-                case StringType.HALF_NUMBER:
+                case STRINGTYPE.HALF_NUMBER:
                     regexString = @"^[0-9]*$";
                     errorString = "半角数字";
                     break;
-                case StringType.HALF_NUMBER_DOT:
+                case STRINGTYPE.HALF_NUMBER_DOT:
                     regexString = @"^\d*\.*\d*$";
                     errorString = "半角数字(小数点以下含む)";
                     break;
-                case StringType.HALF_ALPHA_NUMBER:
+                case STRINGTYPE.HALF_ALPHA_NUMBER:
                     regexString = @"^[0-9a-zA-Z]*$";
                     errorString = "半角英数字";
                     break;
-                case StringType.HALF_ALPHA_NUMBER_SYMBOL:
+                case STRINGTYPE.HALF_ALPHA_NUMBER_SYMBOL:
                     regexString = @"^[!-~]*$";
                     errorString = "半角英数字記号";
                     break;
@@ -59,11 +64,6 @@ namespace OriginalControl
                 errorProvider.SetError((Control)sender, errorString);
                 e.Cancel = true;
             }
-        }
-
-        private void textBox_Validated(object sender, EventArgs e)
-        {
-            errorProvider.SetError((TextBox)sender, null);
         }
     }
 }

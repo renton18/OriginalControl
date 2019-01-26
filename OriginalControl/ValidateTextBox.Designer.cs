@@ -47,6 +47,7 @@
             this.Controls.Add(this.textBox);
             this.Name = "ValidateTextBox";
             this.Size = new System.Drawing.Size(186, 19);
+
             this.ResumeLayout(false);
             this.PerformLayout();
 
